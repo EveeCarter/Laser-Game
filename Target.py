@@ -5,7 +5,7 @@ import Mux
 import Adafruit_TCS34725
 import RPi.GPIO as GPIO
 
-servo_min = 250 # 150  # Min pulse length out of 4096
+servo_min = 150 # 150  # Min pulse length out of 4096
 servo_max = 600  # Max pulse length out of 4096
 servo_mid = 350
 
@@ -35,8 +35,10 @@ class Target(object):
 
     def up(self):
         self.servo.set_pwm(self.servonum, 0, servo_mid)
-        self.led_on()
 
     def down(self):
         self.servo.set_pwm(self.servonum, 0, servo_min)
-        self.led_off()
+
+    def hit(self):
+        r1, g1, b1, c1 = self.reading()
+        return b1 >= 1000
